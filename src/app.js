@@ -1,4 +1,4 @@
-// create an express apllication tha listen on port 3000 and has a single route
+// create an express application tha listen on port 3000 and has a single route
 // Library to require
 const fs = require('fs'); // allow us to read and write files
 const path = require('path'); // allow us to configure absolute path
@@ -16,6 +16,29 @@ app.set('view engine', 'ejs');
 // express stati to point at public where I have my css
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => res.render('index', { title: 'Index' }));
+const accountData = fs.readFileSync(path.join(__dirname, 'json', 'accounts.json'), 'utf8'); // read the content and store it in accountData
+const accounts = JSON.parse(accountData);
+// console.log(accounts);
+
+const userData = fs.readFileSync(path.join(__dirname, 'json', 'users.json'), 'utf8');
+const users = JSON.parse(userData);
+// console.log(users);
+
+app.get('/', (req, res) => {
+    res.render('index', { title: 'Account Summary', accounts });
+});
+app.get('/savings', (req, res) => {
+    res.render('account', { account: accounts.savings })
+});
+app.get('/checking', (req, res) => {
+    res.render('account', { account: accounts.checking })
+});
+app.get('/credit', (req, res) => {
+    res.render('account', { account: accounts.credit })
+}
+);
+app.get('/profile', (req, res) => {
+    res.render('profile', { user: users[0] })
+});
 
 app.listen(3000, () => console.log('PS project running on port 3000'));
