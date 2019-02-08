@@ -3,11 +3,9 @@ const path = require('path');
 
 const accountData = fs.readFileSync(path.join(__dirname, 'json', 'accounts.json'), 'utf8'); // read the content and store it in accountData
 const accounts = JSON.parse(accountData);
-console.log(accounts);
 
 const userData = fs.readFileSync(path.join(__dirname, 'json', 'users.json'), 'utf8');
 const users = JSON.parse(userData);
-console.log(users);
 
 const writeJSON = () => {
     const accountsJSON = JSON.stringify(accounts, null, 4)
